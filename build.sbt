@@ -15,6 +15,7 @@
  */
 import scala.sys.process.*
 import creativescala.ExternalLink
+import laika.ast.Path
 import laika.config.LinkConfig
 import laika.config.ApiLinks
 import laika.theme.Theme
@@ -27,17 +28,13 @@ Global / onChangedBuildSource := ReloadOnSourceChanges
 ThisBuild / organization := Settings.organization
 ThisBuild / organizationName := Settings.organizationName
 ThisBuild / startYear := Settings.startYear
-ThisBuild / licenses := Seq(License.Apache2)
+ThisBuild / licenses := Seq(Settings.license)
 ThisBuild / developers := List(
-  // your GitHub handle and name
-  tlGitHubDev("noelwelsh", "Noel Welsh")
+  tlGitHubDev(Settings.githubHandle, Settings.fullName)
 )
-
-ThisBuild / sonatypeCredentialHost := xerial.sbt.Sonatype.sonatypeLegacy
 
 ThisBuild / crossScalaVersions := List(Settings.scalaVersion)
 ThisBuild / scalaVersion := Settings.scalaVersion
-ThisBuild / useSuperShell := false
 ThisBuild / semanticdbEnabled := true
 ThisBuild / semanticdbVersion := scalafixSemanticdb.revision
 ThisBuild / tlSitePublishBranch := Some("main")
@@ -51,46 +48,24 @@ commands += Command.command("build") { state =>
     "scalafmtAll" ::
     "scalafmtSbt" ::
     "headerCreateAll" ::
+    "docs / tlSite" ::
     "githubWorkflowGenerate" ::
     "dependencyUpdates" ::
     "reload plugins; dependencyUpdates; reload return" ::
-    "docs / tlSite" ::
     state
 }
 
-lazy val css = taskKey[Unit]("Build the CSS")
-
 lazy val commonSettings = Seq(
-  // This is needed when running examples
-  Compile / run / fork := true,
   libraryDependencies ++= Seq(
     Dependencies.munit.value,
     Dependencies.munitScalaCheck.value
   )
 )
 
-lazy val root = crossProject(JSPlatform, JVMPlatform)
-  .in(file("."))
-  .settings(moduleName := Settings.module)
-lazy val rootJvm =
-  root.jvm
-    .settings(mimaPreviousArtifacts := Set.empty)
-    .dependsOn(
-      core.jvm
-    )
-    .aggregate(
-      core.jvm,
-      unidocs
-    )
-lazy val rootJs =
-  root.js
-    .settings(mimaPreviousArtifacts := Set.empty)
-    .dependsOn(
-      core.js
-    )
-    .aggregate(
-      core.js
-    )
+// This project exists only to aggregate the other projects. If you create any
+// additional sub-projects you should aggregate them here.
+lazy val root = tlCrossRootProject
+  .aggregate(core, unidocs)
 
 lazy val core = crossProject(JSPlatform, JVMPlatform)
   .in(file("core"))
@@ -107,17 +82,11 @@ lazy val docs =
     .in(file("docs"))
     .settings(
       tlSiteApiUrl := Some(
-        sbt.url(
-          s"https://javadoc.io/doc/${Settings.organization}/${Settings.module}_3/latest/"
-        )
+        sbt.url(Settings.javadoc)
       ),
       laikaConfig := laikaConfig.value.withConfigValue(
         LinkConfig.empty
-          .addApiLinks(
-            ApiLinks(baseUri =
-              s"https://javadoc.io/doc/${Settings.organization}/${Settings.module}_3/latest/"
-            )
-          )
+          .addApiLinks(ApiLinks(baseUri = Settings.javadoc))
       ),
       mdocIn := file("docs/src/pages"),
       mdocVariables := {
@@ -125,29 +94,28 @@ lazy val docs =
       },
       Laika / sourceDirectories ++=
         Seq(
-          // (examples.js / Compile / fastOptJS / artifactPath).value
-          //   .getParentFile() / s"${(examples.js / moduleName).value}-fastopt"
+          (examples.js / Compile / fastOptJS / artifactPath).value
+            .getParentFile() / s"${(examples.js / moduleName).value}-fastopt"
         ),
       laikaTheme := CreativeScalaTheme.empty
         .withHome(
           TextLink
-            .internal(laika.ast.Path.Root / "README.md", { Settings.module })
+            .internal(
+              laika.ast.Path.Root / "README.md", {
+                Settings.projectName
+              }
+            )
         )
         .withCommunity(
-          ExternalLink("https://discord.gg/rRhcFbJxVG", "Community")
+          ExternalLink(Settings.community, "Community")
         )
         .withApi(
-          ExternalLink(
-            s"https://javadoc.io/doc/${Settings.organization}/${Settings.module}-docs_3/latest",
-            "API"
-          )
+          ExternalLink(Settings.javadoc, "API")
         )
         .withSource(
-          ExternalLink(
-            "https://github.com/creativescala/krop",
-            "Source"
-          )
+          ExternalLink(Settings.source, "Source")
         )
+        .addJs(Path.Root / "main.js")
         .build,
       laikaExtensions ++= Seq(
         laika.format.Markdown.GitHubFlavor,
@@ -155,7 +123,7 @@ lazy val docs =
       ),
       tlSite := Def
         .sequential(
-          // (examples.js / Compile / fastLinkJS),
+          (examples.js / Compile / fastLinkJS),
           mdoc.toTask(""),
           laikaSite
         )
@@ -175,18 +143,21 @@ lazy val unidocs = project
       )
   )
 
-// To avoid including this in the core build
+// The examples project will not get published. It exists to hold code that is
+// used in your documentation, which is usually Scala.js code though you can
+// write JVM code if that works better for you.
 lazy val examples = crossProject(JSPlatform, JVMPlatform)
   .in(file("examples"))
   .settings(
     commonSettings,
-    moduleName := s"${Settings.module}-examples"
+    moduleName := s"${Settings.module}-examples",
+    // Used in the example code we've written. Delete if you don't need it.
+    libraryDependencies += "org.creativescala" %%% "doodle" % "0.31.0",
+    mimaPreviousArtifacts := Set.empty
   )
   .jvmConfigure(
-    _.settings(mimaPreviousArtifacts := Set.empty)
-      .dependsOn(core.jvm)
+    _.dependsOn(core.jvm)
   )
   .jsConfigure(
-    _.settings(mimaPreviousArtifacts := Set.empty)
-      .dependsOn(core.js)
+    _.dependsOn(core.js)
   )
