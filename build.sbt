@@ -71,9 +71,6 @@ lazy val core = crossProject(JSPlatform, JVMPlatform)
   .in(file("core"))
   .settings(
     commonSettings,
-    libraryDependencies ++= Seq(
-      Dependencies.catsCore.value
-    ),
     moduleName := s"${Settings.module}-core"
   )
 
