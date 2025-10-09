@@ -23,13 +23,6 @@ project/project/project
 .scala_dependencies
 .worksheet
 
-# Documentation intermediate files
-docs/src/main/paradox
-docs/src/main/mdoc/api
-docs/src/pages/**/*.png
-
-
-
 ### SublimeText ###
 doodle.sublime-project
 # cache files for sublime text
