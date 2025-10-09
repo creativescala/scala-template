@@ -13,7 +13,7 @@ object Settings {
 
   val license = License.Apache2
 
-  val scalaVersion = "3.7.3"
+  val scalaVersion = "3.3.6"
 
   // Used to populate the list of the developers. If there are multiple
   // developers edit the values directly in build.sbt
