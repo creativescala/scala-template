@@ -1,0 +1,156 @@
+<!doctype html>
+<html class="scroll-smooth"
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content="Laika 1.0.0" />
+    <title>Scala Template</title>
+     
+    <meta name="description" content="docs" />
+    
+    <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?version=4.8.0&features=es6"></script>
+    <script
+      id="MathJax-script"
+      async
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+    ></script>
+    <link
+      href="https://fonts.googleapis.com/css?family=Source+Code+Pro:400|Source+Sans+Pro:300,400,600"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Crimson+Pro:400"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link rel="stylesheet" type="text/css" href="css/creative-scala.css" /> <script src="js/solution.js"></script><script src="main.js"></script>
+    <script>
+      /* for avoiding page load transitions */
+    </script>
+  </head>
+
+  <body>
+    <header>
+      <div id="topbar">
+        <nav id="topbar">
+          <button
+            class="text-sm text-pink-800 font-sans font-semibold hover:text-pink-600 focus:text-pink-600"
+            popovertarget="topbar-nav"
+          >
+            Contents
+          </button>
+          <div id="topbar-nav" popover="auto">
+            <div id="topbar-nav-container" class="flex justify-items-center items-center h-dvh w-dvw">
+              <div
+                class="p-4 mx-auto rounded-md bg-white border border-slate-900 max-h-4/5 w-4/5 overflow-y-auto overflow-x-auto flex flex-col items-end"
+              >
+                <button
+                  class="text-slate-900 hover:text-pink-800 focus:text-pink-800"
+                  popovertarget="topbar-nav"
+                  popovertargetaction="hide"
+                >
+                  ✕
+                </button>
+                <div class="w-full">
+                  <ul class="nav-list">
+                    <li class="level1 active nav-leaf"><a href="#">Scala Template</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </nav>
+        <nav id="home"><a class="text-link" href="#">Scala Template</a></nav>
+        <nav id="external"><a href="https://discord.gg/rRhcFbJxVG">Community<span><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='lucide lucide-square-arrow-out-up-right' > <path d='M21 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h6' /> <path d='m21 3-9 9' /> <path d='M15 3h6v6' /> </svg></span></a> <a href="https://javadoc.io/doc/org.creativescala/scala-template_3/latest/">API<span><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='lucide lucide-square-arrow-out-up-right' > <path d='M21 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h6' /> <path d='m21 3-9 9' /> <path d='M15 3h6v6' /> </svg></span></a> <a href="https://github.com/creativescala/scala-template">Source<span><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='lucide lucide-square-arrow-out-up-right' > <path d='M21 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h6' /> <path d='m21 3-9 9' /> <path d='M15 3h6v6' /> </svg></span></a></nav>
+      </div>
+    </header>
+
+    <main class="max-w-8xl mx-auto my-8 min-h-screen flex">
+      <!-- Left sticky table of contents -->
+      <nav
+        id="sitebar"
+        class="hidden lg:block min-w-64 max-w-md mr-8 sticky top-24 self-start flex-shrink-0"
+      >
+        <div class="max-h-[calc(100vh-6rem)] overflow-y-auto">
+          <ul class="nav-list">
+            <li class="level1 active nav-leaf"><a href="#">Scala Template</a></li>
+          </ul>
+        </div>
+      </nav>
+      <div id="contentbar" class="mx-auto flex-1">
+        <div class="max-w-prose mx-auto">
+          <div id="content"><h1 id="scala-template" class="title">Scala Template</h1>
+<p>This is a template for creating projects in the Creative Scala style. It provides:</p>
+<ul>
+  <li>a <code>build</code> task, and sbt plugins, to do everything (compile, run tests, format, etc.) for day-to-day development.</li>
+  <li>documentation created via <a href="https://scalameta.org/mdoc/">mdoc</a> and <a href="https://typelevel.org/Laika/">Laika</a>, and styled using the <a href="https://github.com/creativescala/creative-scala-theme/">Creative Scala theme</a>.</li>
+  <li>integration with the <a href="https://typelevel.org/sbt-typelevel/">Typelevel sbt plugin</a> to implement CI tasks via Github actions, and publish to Maven when tags like <code>v0.2</code> are pushed.</li>
+</ul>
+
+<h2 id="getting-started" class="section">Getting Started</h2>
+<ol class="arabic">
+  <li>Clone or fork this repository to create your own project.</li>
+  <li>Change the settings in <code>project/Settings.scala</code>.</li>
+  <li>Declare any dependencies in <code>project/Dependencies.scala</code> and then add then to settings as appropriate.</li>
+  <li>Start sbt and run <code>build</code> to make it happen.</li>
+</ol>
+
+<h2 id="development" class="section">Development</h2>
+<p>Write code and then run <code>build</code> in sbt. Watch it do everything (compile code, run tests, format code, check dependencies are up to date, build your documentation, and more!)</p>
+<p>The <code>build.sbt</code> defines a single project, called <code>core</code>. All your code should be under the <code>core</code> project, unless you create additional projects. By default <code>core</code> is defined as a cross platform project. If you don&#39;t need a cross platform project you can reduce some complexity by changing it to a normal project.</p>
+<p>If you create additional sub-projects, make sure to aggregate them in the <code>root</code> project. The <code>root</code> project should not contain any code. It only exists to aggregate other projects.</p>
+
+<h2 id="documentation" class="section">Documentation</h2>
+<p>Write your documentation in <code>docs/src/pages</code>. You&#39;ll find this documentation there!</p>
+<p>You can write Scala code and use mdoc to evaluate it, as shown below.</p>
+<pre><code class="nohighlight"><span class="type-name">List</span><span>(</span><span class="number-literal">1</span><span>,</span><span class="number-literal">2</span><span>,</span><span class="number-literal">3</span><span>).</span><span class="identifier">map</span><span>(</span><span class="identifier">_</span><span> * </span><span class="number-literal">2</span><span>)
+</span><span class="comment">// res0: List[Int] = List(2, 4, 6)</span></code></pre>
+<p>You can include images in the usual way. Here is a picture of a chessboard!</p>
+<p><img src="chessboard.png" alt="A picture of a red and black chessboard"></p>
+<p>If your documentation needs extended code examples, you can write that code in the <code>examples</code> project and pull it into the documentation. There is an example below, rendered by Scala.js code in the <code>examples</code> project.</p>
+<div class="doodle" id="hello"></div>
+<script>Example.draw("hello")</script>
+<p>When working on the documentation, if is often useful to just build the documentation without doing all the other time consuming stuff that <code>build</code> does. The sbt command to do this is <code>docs / tlSite</code>. For a live preview run the command <code>docs / tlSitePreview</code>.</p>
+<p>To publish your documentation you&#39;ll need to set the following settings on your Github project (taken from the <a href="https://typelevel.org/sbt-typelevel/site.html">sbt-typelevel-site</a> documentation)</p>
+<ol class="arabic">
+  <li>Grant &quot;Read and write&quot; permissions to workflows. This enables them to push to the gh-pages branch. <code>https://github.com/{user}/{repo}/settings/actions</code></li>
+  <li>Set the GitHub pages source to the / (root) directory on the gh-pages branch. <code>https://github.com/{user}/{repo}/settings/pages</code></li>
+</ol>
+<p>Once set, your documentation will be published on each push to the <code>main</code> branch.</p>
+
+<h2 id="continuous-integration" class="section">Continuous Integration</h2>
+<p>Running <code>build</code> will generate Github Actions workflows to run essentially the same steps as <code>build</code>, as well as publishing your documentation. Simply commit the files in the <code>.github</code> directory and it will work.</p>
+
+<h2 id="publishing" class="section">Publishing</h2>
+<p>Push a tag like <code>v0.2.0</code>, replacing the number with an appropriate version number for your project, and it will be published to Maven. You will need to have added appropriate secrets to your repository. See the <a href="https://typelevel.org/sbt-typelevel/secrets.html">sbt-typelevel documentation</a> for the details.</p>
+<p>When you create breaking changes you will need to bump the version in <code>tlBaseVersion</code> to get CI happy again.</p></div>
+          <div class="flex flex-row justify-between">
+             
+          </div>
+        </div>
+        <footer>
+          Copyright &copy; Noel Welsh. Built with
+          <span class="hover:text-pink-900">💖</span>
+        </footer>
+      </div>
+      <!-- Right sticky page contents -->
+      <nav
+        id="pagebar"
+        class="hidden lg:block min-w-60 max-w-64 ml-8 sticky top-24 self-start flex-shrink-0"
+      >
+        <div class="max-h-[calc(100vh-6rem)] overflow-y-auto">
+          <p>On This Page</p>
+          <ul class="nav-list">
+            <li class="level1 nav-leaf"><a href="#getting-started">Getting Started</a></li>
+            <li class="level1 nav-leaf"><a href="#development">Development</a></li>
+            <li class="level1 nav-leaf"><a href="#documentation">Documentation</a></li>
+            <li class="level1 nav-leaf"><a href="#continuous-integration">Continuous Integration</a></li>
+            <li class="level1 nav-leaf"><a href="#publishing">Publishing</a></li>
+          </ul>
+        </div>
+      </nav>
+    </main>
+  </body>
+</html>
