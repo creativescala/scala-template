@@ -12,8 +12,6 @@ object Dependencies {
   val scalatagsVersion = "0.13.1"
   val scalajsDomVersion = "2.8.0"
 
-  val batikVersion = "1.18"
-
   val scalaCheckVersion = "1.15.4"
   val munitVersion = "1.2.0"
   val munitScalacheckVersion = "1.2.0"
@@ -29,9 +27,6 @@ object Dependencies {
   val scalatags = Def.setting("com.lihaoyi" %%% "scalatags" % scalatagsVersion)
   val scalajsDom =
     Def.setting("org.scala-js" %%% "scalajs-dom" % scalajsDomVersion)
-
-  val batik =
-    Def.setting("org.apache.xmlgraphics" % "batik-transcoder" % batikVersion)
 
   val munit = Def.setting("org.scalameta" %%% "munit" % munitVersion % Test)
   val munitScalaCheck =

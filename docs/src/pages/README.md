@@ -11,7 +11,7 @@ This is a template for creating projects in the Creative Scala style. It provide
 
 1. Clone or fork this repository to create your own project.
 2. Change the settings in `project/Settings.scala`.
-3. Declare any dependencies in `project/Dependencies.scala` and then add then to settings as appropriate.
+3. Declare any dependencies in `project/Dependencies.scala` and then add them to settings as appropriate.
 4. Start sbt and run `build` to make it happen.
 
 
