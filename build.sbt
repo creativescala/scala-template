@@ -136,7 +136,9 @@ lazy val unidocs = project
     name := s"${Settings.module}-docs",
     ScalaUnidoc / unidoc / unidocProjectFilter :=
       inAnyProject -- inProjects(
-        docs
+        docs,
+        examples.jvm,
+        examples.js
       )
   )
 
