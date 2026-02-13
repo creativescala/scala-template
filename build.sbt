@@ -20,8 +20,9 @@ import laika.config.LinkConfig
 import laika.config.ApiLinks
 import laika.theme.Theme
 import laika.helium.config.TextLink
+import scala.scalanative.build._
 
-ThisBuild / tlBaseVersion := "0.1" // your current series x.y
+// ThisBuild / tlBaseVersion := "0.1" // your current series x.y
 
 Global / onChangedBuildSource := ReloadOnSourceChanges
 
@@ -49,7 +50,7 @@ commands += Command.command("build") { state =>
     "scalafmtSbt" ::
     "headerCreateAll" ::
     "docs / tlSite" ::
-    "githubWorkflowGenerate" ::
+    // "githubWorkflowGenerate" ::
     "dependencyUpdates" ::
     "reload plugins; dependencyUpdates; reload return" ::
     state
@@ -64,15 +65,21 @@ lazy val commonSettings = Seq(
 
 // This project exists only to aggregate the other projects. If you create any
 // additional sub-projects you should aggregate them here.
-lazy val root = tlCrossRootProject
-  .aggregate(core, unidocs)
+lazy val root = project.aggregate(core)
 
-lazy val core = crossProject(JSPlatform, JVMPlatform)
+lazy val core = project
   .in(file("core"))
   .settings(
     commonSettings,
-    moduleName := s"${Settings.module}-core"
+    moduleName := s"${Settings.module}-core",
+    libraryDependencies ++= Seq(
+      // Dependencies.catsEffect.value,
+      Dependencies.fs2.value,
+      Dependencies.fs2Io.value,
+      Dependencies.parsley.value
+    )
   )
+  .enablePlugins(ScalaNativePlugin)
 
 lazy val docs =
   project
@@ -91,8 +98,8 @@ lazy val docs =
       },
       Laika / sourceDirectories ++=
         Seq(
-          (examples.js / Compile / fastOptJS / artifactPath).value
-            .getParentFile() / s"${(examples.js / moduleName).value}-fastopt"
+          // (examples.js / Compile / fastOptJS / artifactPath).value
+          //   .getParentFile() / s"${(examples.js / moduleName).value}-fastopt"
         ),
       laikaTheme := CreativeScalaTheme.empty
         .withHome(
@@ -120,43 +127,42 @@ lazy val docs =
       ),
       tlSite := Def
         .sequential(
-          (examples.js / Compile / fastLinkJS),
+          // (examples.js / Compile / fastLinkJS),
           mdoc.toTask(""),
           laikaSite
         )
         .value
     )
     .enablePlugins(TypelevelSitePlugin)
-    .dependsOn(core.jvm)
 
-lazy val unidocs = project
-  .in(file("unidocs"))
-  .enablePlugins(TypelevelUnidocPlugin) // also enables the ScalaUnidocPlugin
-  .settings(
-    name := s"${Settings.module}-docs",
-    ScalaUnidoc / unidoc / unidocProjectFilter :=
-      inAnyProject -- inProjects(
-        docs,
-        examples.jvm,
-        examples.js
-      )
-  )
+// lazy val unidocs = project
+//   .in(file("unidocs"))
+//   .enablePlugins(TypelevelUnidocPlugin) // also enables the ScalaUnidocPlugin
+//   .settings(
+//     name := s"${Settings.module}-docs",
+//     ScalaUnidoc / unidoc / unidocProjectFilter :=
+//       inAnyProject -- inProjects(
+//         docs,
+//         examples.jvm,
+//         examples.js
+//       )
+//   )
 
 // The examples project will not get published. It exists to hold code that is
 // used in your documentation, which is usually Scala.js code though you can
 // write JVM code if that works better for you.
-lazy val examples = crossProject(JSPlatform, JVMPlatform)
-  .in(file("examples"))
-  .settings(
-    commonSettings,
-    moduleName := s"${Settings.module}-examples",
-    // Used in the example code we've written. Delete if you don't need it.
-    libraryDependencies += "org.creativescala" %%% "doodle" % "0.31.0",
-    mimaPreviousArtifacts := Set.empty
-  )
-  .jvmConfigure(
-    _.dependsOn(core.jvm)
-  )
-  .jsConfigure(
-    _.dependsOn(core.js)
-  )
+// lazy val examples = crossProject(JSPlatform, JVMPlatform)
+//   .in(file("examples"))
+//   .settings(
+//     commonSettings,
+//     moduleName := s"${Settings.module}-examples",
+//     // Used in the example code we've written. Delete if you don't need it.
+//     libraryDependencies += "org.creativescala" %%% "doodle" % "0.31.0",
+//     mimaPreviousArtifacts := Set.empty
+//   )
+// .jvmConfigure(
+//   _.dependsOn(core.jvm)
+// )
+// .jsConfigure(
+//   _.dependsOn(core.js)
+// )

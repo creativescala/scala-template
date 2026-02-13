@@ -1,19 +1,19 @@
 import sbt.License
 
 object Settings {
-  val projectName = "Scala Template"
+  val projectName = "Objective"
 
   // Used to create the artifact names when publishing to Maven.
-  val module = "scala-template"
+  val module = "objective"
   val organization = "org.creativescala"
 
   // Used in copyright headers
   val organizationName = "Creative Scala"
-  val startYear = Some(2025)
+  val startYear = Some(2026)
 
   val license = License.Apache2
 
-  val scalaVersion = "3.3.6"
+  val scalaVersion = "3.8.1"
 
   // Used to populate the list of the developers. If there are multiple
   // developers edit the values directly in build.sbt
