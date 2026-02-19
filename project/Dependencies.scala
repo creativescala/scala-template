@@ -8,7 +8,9 @@ object Dependencies {
   val catsVersion = "2.13.0"
   val catsEffectVersion = "3.7.0-RC1"
   val fs2Version = "3.13.0-M8"
-  val parsleyVersion = "5.0.0-M18"
+  val parsleyVersion = "5.0.0-M19"
+  val declineVersion = "2.6.0"
+  val declineDeriveVersion = "0.3.6"
 
   val scalatagsVersion = "0.13.1"
   val scalajsDomVersion = "2.8.0"
@@ -25,7 +27,10 @@ object Dependencies {
   val catsFree = Def.setting("org.typelevel" %%% "cats-free" % catsVersion)
   val fs2 = Def.setting("co.fs2" %%% "fs2-core" % fs2Version)
   val fs2Io = Def.setting("co.fs2" %%% "fs2-io" % fs2Version)
-  val parsley = Def.setting("com.github.j-mie6" %% "parsley" % parsleyVersion)
+  val parsley = Def.setting("com.github.j-mie6" %%% "parsley" % parsleyVersion)
+  val decline = Def.setting("com.monovore" %%% "decline" % declineVersion)
+  val declineDerive =
+    Def.setting("com.indoorvivants" %%% "decline-derive" % declineDeriveVersion)
 
   val scalatags = Def.setting("com.lihaoyi" %%% "scalatags" % scalatagsVersion)
   val scalajsDom =

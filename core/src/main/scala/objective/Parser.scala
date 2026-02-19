@@ -25,18 +25,20 @@ object Parser:
     Item.apply.lift(
       status,
       description <* separator,
-      duration <* parsley.character.endOfLine
+      duration
     )
 
   val otherLine: Parsley[Unit] =
-    (parsley.character.stringOfMany(
-      _ != '\n'
-    ) <* parsley.character.endOfLine).void
+    parsley.combinator
+      .manyTill(
+        parsley.character.item,
+        Parsley.lookAhead(parsley.character.endOfLine | Parsley.eof)
+      )
+      .void
 
-  val line = itemLine.map(Some.apply).orElse(otherLine.as(None))
+  val line: Parsley[Option[Item]] =
+    itemLine.map(Some.apply).orElse(otherLine.as(None))
 
-  val lines = line.foldRight(List.empty)((maybeLine, accum) =>
-    maybeLine match
-      case None       => accum
-      case Some(line) => line :: accum
-  )
+  val lines: Parsley[List[Item]] = parsley.combinator
+    .sepEndBy(line, parsley.character.endOfLine)
+    .map(_.flatten)

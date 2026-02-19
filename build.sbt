@@ -23,6 +23,9 @@ import laika.helium.config.TextLink
 import scala.scalanative.build._
 
 // ThisBuild / tlBaseVersion := "0.1" // your current series x.y
+// ThisBuild / addCompilerPlugin("org.scalameta" % "semanticdb-scalac" % "4.15.1" cross CrossVersion.full)
+
+Global / semanticdbVersion := "4.15.2"
 
 Global / onChangedBuildSource := ReloadOnSourceChanges
 
@@ -37,7 +40,6 @@ ThisBuild / developers := List(
 ThisBuild / crossScalaVersions := List(Settings.scalaVersion)
 ThisBuild / scalaVersion := Settings.scalaVersion
 ThisBuild / semanticdbEnabled := true
-ThisBuild / semanticdbVersion := scalafixSemanticdb.revision
 ThisBuild / tlSitePublishBranch := Some("main")
 
 // Run this (build) to do everything involved in building the project
@@ -48,7 +50,7 @@ commands += Command.command("build") { state =>
     "scalafixAll" ::
     "scalafmtAll" ::
     "scalafmtSbt" ::
-    "headerCreateAll" ::
+    // "headerCreateAll" ::
     "docs / tlSite" ::
     // "githubWorkflowGenerate" ::
     "dependencyUpdates" ::
@@ -72,11 +74,13 @@ lazy val core = project
   .settings(
     commonSettings,
     moduleName := s"${Settings.module}-core",
+    Compile / run / fork := true,
     libraryDependencies ++= Seq(
       // Dependencies.catsEffect.value,
       Dependencies.fs2.value,
       Dependencies.fs2Io.value,
-      Dependencies.parsley.value
+      Dependencies.parsley.value,
+      Dependencies.declineDerive.value
     )
   )
   .enablePlugins(ScalaNativePlugin)
