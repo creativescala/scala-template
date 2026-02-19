@@ -6,12 +6,6 @@ import parsley.syntax.character.*
 
 import scala.concurrent.duration.*
 
-enum Status:
-  case Open
-  case Closed
-
-final case class Item(status: Status, description: String, duration: Duration)
-
 object Parser:
   val description = parsley.character.stringOfSome(_ != ':')
   val separator: Parsley[String] = ": "

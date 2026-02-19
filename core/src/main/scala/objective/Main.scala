@@ -2,13 +2,12 @@ package objective
 
 import cats.effect.IO
 import cats.effect.IOApp
+import decline_derive.*
 import fs2.Stream
 
-object Objective extends IOApp.Simple:
-  val run =
-    Stream
-      .exec(IO.println("Starting objective"))
-      .append(Server.server)
-      .append(Stream.exec(IO.println("Stopping objective")))
-      .compile
-      .drain
+object Main extends CommandApplication.Main[Command]:
+  override def run(args: Command) =
+    args match
+      case Command.Serve   => println("Serve!")
+      case Command.Inspect => println("Inspect!")
+      case Command.Reload  => println("Reload!")
